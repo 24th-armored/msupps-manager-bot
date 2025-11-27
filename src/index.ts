@@ -2,13 +2,30 @@ import './lib/setup';
 
 import { LogLevel, SapphireClient } from '@sapphire/framework';
 import { GatewayIntentBits } from 'discord.js';
+import express from 'express';
 
 const client = new SapphireClient({
 	logger: { level: LogLevel.Debug },
 	intents: [GatewayIntentBits.GuildMessages, GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent]
 });
 
-const main = async () => {
+
+async function main() {
+	// Health check endpoint for Railway
+	const app = express();
+	const port = Number(process.env.PORT) || 3000;
+
+	app.get('/health', (_req, res) => {
+		res.status(200).json({
+			status: 'OK',
+			timestamp: new Date().toISOString()
+		});
+	});
+
+	app.listen(port, () => {
+		console.log(`Health check server running on port ${port}`);
+	});
+
 	try {
 		client.logger.info('Logging in');
 		await client.login();
