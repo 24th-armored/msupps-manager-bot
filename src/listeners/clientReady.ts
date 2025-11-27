@@ -6,7 +6,7 @@ import { blue, gray, green, magenta, magentaBright, white, yellow } from 'colore
 const dev = process.env.NODE_ENV !== 'production';
 
 @ApplyOptions<Listener.Options>({ once: true })
-export class UserEvent extends Listener {
+export class ClientReadyListener extends Listener {
 	private readonly style = dev ? yellow : blue;
 
 	public override run() {

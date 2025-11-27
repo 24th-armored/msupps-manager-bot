@@ -1,21 +1,9 @@
-import {
-	container,
-	type ChatInputCommandSuccessPayload,
-	type Command,
-	type ContextMenuCommandSuccessPayload,
-	type MessageCommandSuccessPayload
-} from '@sapphire/framework';
+import { container, type ChatInputCommandSuccessPayload, type Command, type ContextMenuCommandSuccessPayload } from '@sapphire/framework';
 import { cyan } from 'colorette';
 import type { APIUser, Guild, User } from 'discord.js';
 
-export function logSuccessCommand(payload: ContextMenuCommandSuccessPayload | ChatInputCommandSuccessPayload | MessageCommandSuccessPayload): void {
-	let successLoggerData: ReturnType<typeof getSuccessLoggerData>;
-
-	if ('interaction' in payload) {
-		successLoggerData = getSuccessLoggerData(payload.interaction.guild, payload.interaction.user, payload.command);
-	} else {
-		successLoggerData = getSuccessLoggerData(payload.message.guild, payload.message.author, payload.command);
-	}
+export function logSuccessCommand(payload: ContextMenuCommandSuccessPayload | ChatInputCommandSuccessPayload): void {
+	const successLoggerData = getSuccessLoggerData(payload.interaction.guild, payload.interaction.user, payload.command);
 
 	container.logger.debug(`${successLoggerData.shard} - ${successLoggerData.commandName} ${successLoggerData.author} ${successLoggerData.sentAt}`);
 }
@@ -27,6 +15,10 @@ export function getSuccessLoggerData(guild: Guild | null, user: User, command: C
 	const sentAt = getGuildInfo(guild);
 
 	return { shard, commandName, author, sentAt };
+}
+
+export function getCommandId(qualifier: string) {
+	return [process.env[`DISCORD_COMMAND_${qualifier}_ID`]].flatMap((x) => (x ? [x] : []));
 }
 
 function getShardInfo(id: number) {
