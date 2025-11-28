@@ -10,7 +10,7 @@ setup(`.env.${process.env.NODE_ENV}.local`);
 
 import '@sapphire/plugin-logger/register';
 
-import './lib/database/instance';
+import './database/instance';
 
 // Set default behavior to bulk overwrite
 ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.BulkOverwrite);

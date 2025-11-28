@@ -32,7 +32,7 @@ async function main() {
 	});
 
 	app.listen(port, () => {
-		console.log(`Health check server running on port ${port}`);
+		client.logger.info(`Health check server running on port ${port}`);
 	});
 }
 
