@@ -14,7 +14,9 @@
 		"@skyra/env-utilities": "^1.3.0",
 		"colorette": "^2.0.20",
 		"discord.js": "^14.17.3",
-		"express": "^5.1.0"
+		"express": "^5.1.0",
+		"kysely": "^0.28.8",
+		"pg": "^8.16.3"
 	},
 	"devDependencies": {
 		"@sapphire/cli": "^1.9.3",
@@ -22,20 +24,26 @@
 		"@sapphire/ts-config": "^5.0.1",
 		"@types/express": "^5.0.5",
 		"@types/node": "^22.10.7",
+		"@types/pg": "^8.15.6",
 		"@types/ws": "^8.5.13",
+		"kanel": "^3.16.0",
+		"kanel-kysely": "^0.8.0",
 		"prettier": "^3.4.2",
 		"tsc-watch": "^6.3.0",
 		"typescript": "~5.4.5"
 	},
 	"scripts": {
 		"sapphire": "sapphire",
-		"generate": "sapphire generate",
 		"build": "tsc",
 		"watch": "tsc -w",
 		"start": "node dist/index.js",
 		"dev": "pnpm run build && pnpm run start",
 		"watch:start": "tsc-watch --onSuccess \"pnpm run start\"",
-		"format": "prettier --write \"src/\""
+		"format": "prettier --write \"src/\"",
+    "db:create": "node --env-file=.env.development.local scripts/db-manage.mjs create",
+    "db:drop": "node --env-file=.env.development.local scripts/db-manage.mjs drop",
+    "db:reset": "node --env-file=.env.development.local scripts/db-manage.mjs reset",
+		"db:schema": "node --env-file=.env.development.local scripts/generate-types.js"
 	},
 	"prettier": "@sapphire/prettier-config"
 }
